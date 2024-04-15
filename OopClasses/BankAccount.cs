@@ -8,28 +8,56 @@ namespace OopClasses
 {
     internal class BankAccount
     {
-        public static int accountNumberSeed = 1234567890;
+        private static int accountNumberSeed = 1234567890;
+
+        private List<Transtraction> allTransactions = new List<Transtraction>();
         public string Number { get; }
         public string Owner { get; set; }
-        public decimal balence { get; }
+       
+        public decimal balance
+        {
+            get
+            {
+                decimal balance = 0;
+                foreach (var items in allTransactions)
+                {
+                    balance += items.Amount;
+                }
+                return balance;
+            }
+            
+        } 
 
         //Constructor
 
         public BankAccount(string name, decimal initializeBalence)
         {
             this.Owner = name;
-            this.balence = initializeBalence;
+            MakeDeposit(initializeBalence, DateTime.Now, "Innitilize balance");
             this.Number = accountNumberSeed.ToString();
             accountNumberSeed++;
+            
         }
 
         public void MakeDeposit(decimal amount, DateTime date, string note)
         {
+            if (amount <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(amount), "Amount of deposit must be positive");
+            }
 
+            var deposit = new Transtraction(amount, date, note);
+            allTransactions.Add(deposit);
         }
         public void MakeWithdrowal(decimal amount, DateTime date, string note)
         {
+            if (amount <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(amount), "Amount of withdrowal must be positive");
+            }
 
+            var withdrowal = new Transtraction(-amount, date, note);
+            allTransactions.Add(withdrowal);
         }
     }
 }
