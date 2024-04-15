@@ -1,8 +1,13 @@
 ﻿using OopClasses;
 
 BankAccount account1 = new BankAccount("Thilina Madushan", 5000);
-BankAccount account2 = new BankAccount("Piyal Siriwardhana", 10000);
 
+account1.MakeDeposit(12000, DateTime.Now, "Fund");
 
-Console.WriteLine($"This account owner is {account1.Owner} and account number is {account1.Number}");
-Console.WriteLine($"This account owner is {account2.Owner} and account number is {account2.Number}");
+account1.MakeWithdrowal(2000, DateTime.Now, "Car service");
+
+Console.WriteLine("Your bank account summery is");
+Console.WriteLine("------------------------------");
+Console.WriteLine(account1.GetAccountHistory());
+
+Console.WriteLine($"Your current balence is {account1.Balance}");

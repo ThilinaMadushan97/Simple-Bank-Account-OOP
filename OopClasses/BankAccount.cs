@@ -14,7 +14,7 @@ namespace OopClasses
         public string Number { get; }
         public string Owner { get; set; }
        
-        public decimal balance
+        public decimal Balance
         {
             get
             {
@@ -56,8 +56,29 @@ namespace OopClasses
                 throw new ArgumentOutOfRangeException(nameof(amount), "Amount of withdrowal must be positive");
             }
 
+            if (this.Balance - amount < 0)
+            {
+                throw new InvalidOperationException("Not suffision fund for this withdrowal");
+            }
+
             var withdrowal = new Transtraction(-amount, date, note);
             allTransactions.Add(withdrowal);
+        }
+
+        public string GetAccountHistory()
+        {
+            decimal balance = 0;
+
+            var report = new StringBuilder();
+
+            report.AppendLine("Date\t\t\t Amount\t Note\t");
+
+            foreach (var item in allTransactions)
+            {
+                balance += item.Amount;
+                report.AppendLine($"{item.Date}\t{item.Amount}\t{item.Notes}");
+            }
+            return report.ToString();
         }
     }
 }
